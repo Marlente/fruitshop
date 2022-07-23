@@ -14,7 +14,6 @@ function Shelf ({fruits, onAddToCart}){
         <div className="text-lg">Price: {fruit.price}</div>
         <div className="w-80 h-80 bg-cover" style={{backgroundImage: `url(${fruit.picture})`}}></div>
         <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {
-          console.log("onClick called")
           onAddToCart(fruit.name)
         }}>Add to cart</button>
       </div>
@@ -23,15 +22,29 @@ function Shelf ({fruits, onAddToCart}){
   </div>)
 }
 
-function Cart ({cart}){
+function Cart ({cart, onAddToCart, onRemoveFromCart, onRemoveAllItems}){
 
   return (
     <div className="p-10 m-5 border-2 border-gray-700 rounded-lg">
       <h1 className="text-xl font-bold">Cart</h1>
       {Object.keys(cart).map((itemId) => {
         return (<div>
-          {itemId}
-          {cart[itemId]}
+          <div>
+            {itemId}
+            {cart[itemId]}
+          </div>
+          <div className="flex">
+          <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {
+          onAddToCart(itemId)
+        }}>+1</button>
+        <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {
+          onRemoveFromCart(itemId)
+        }}>-1</button>
+        <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {
+          onRemoveAllItems(itemId)
+        }}>Remove All</button>
+          </div>
+          
         </div>
           )
       })}
@@ -48,15 +61,25 @@ export default function Home() {
   })
   const addItem = (itemId) => {
     setCart({...cart, [itemId]: cart[itemId] + 1})
-    console.log({...cart, [itemId]: cart[itemId] + 1})
-    console.log("addItem called function")
   }
   const removeItem = (itemId) => {
     setCart({...cart, [itemId]: cart[itemId] - 1})
   }
+  const removeAllItems = (itemId) => {
+    setCart({...cart, [itemId]: 0})
+  }
+
   return (
   <div> 
-    <Shelf fruits={fruits} onAddToCart={addItem}/> 
-    <Cart cart={cart}/> 
+    <Shelf 
+    fruits={fruits} 
+    onAddToCart={addItem}
+    /> 
+    <Cart 
+    cart={cart} 
+    onAddToCart={addItem} 
+    onRemoveFromCart={removeItem}
+    onRemoveAllItems={removeAllItems}
+    />
   </div>)
 }
