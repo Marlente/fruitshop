@@ -6,14 +6,17 @@ const fruits = [{name: "Mango", price: 42, picture: "https://images.immediate.co
 
 
 
-function Shelf ({fruits}){
+function Shelf ({fruits, onAddToCart}){
   return (<div>
     {fruits.map((fruit) => {
       return (<div className="p-10 m-5 border-2 border-gray-700 rounded-lg inline-block"> 
         <div className="text-2xl font-bold">{fruit.name}</div>
         <div className="text-lg">Price: {fruit.price}</div>
         <div className="w-80 h-80 bg-cover" style={{backgroundImage: `url(${fruit.picture})`}}></div>
-        <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {}}>Add to cart</button>
+        <button className="p-2 m-2 bg-blue-500 rounded-lg text-white" onClick={() => {
+          console.log("onClick called")
+          onAddToCart(fruit.name)
+        }}>Add to cart</button>
       </div>
         )
     })}
@@ -45,13 +48,15 @@ export default function Home() {
   })
   const addItem = (itemId) => {
     setCart({...cart, [itemId]: cart[itemId] + 1})
+    console.log({...cart, [itemId]: cart[itemId] + 1})
+    console.log("addItem called function")
   }
   const removeItem = (itemId) => {
     setCart({...cart, [itemId]: cart[itemId] - 1})
   }
   return (
   <div> 
-    <Shelf fruits={fruits} /> 
+    <Shelf fruits={fruits} onAddToCart={addItem}/> 
     <Cart cart={cart}/> 
   </div>)
 }
