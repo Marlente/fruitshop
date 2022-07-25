@@ -17,12 +17,12 @@ function Shelf ({fruits, onAddToCart}){
   return (<div>
 
     <div className="p-10 w-full bg-blue-100">
-      <h1 className="text-3xl font-bold">Marlo's Fruitshop</h1>
+      <h1 className="text-3xl font-bold">Marlo Fruitshop</h1>
       <h3 className="text-xl italic">As fresh as you can get them</h3>
     </div>
 
     {fruits.map((fruit) => {
-      return (<div className="p-10 m-4 border-2 border-gray-700 rounded-lg inline-block"> 
+      return (<div key={fruit.name} className="p-10 m-4 border-2 border-gray-700 rounded-lg inline-block"> 
         <div className="text-2xl font-bold">{fruit.name}</div>
         <div className="text-lg">Price: {fruit.price}$</div>
         <div className="w-80 h-80 bg-cover mt-2" style={{backgroundImage: `url(${fruit.picture})`}}></div>
@@ -42,7 +42,7 @@ function Cart ({cart, onAddToCart, onRemoveFromCart, onRemoveAllItems, onGetTota
     <div className="p-10 m-4 border-2 border-gray-700 rounded-lg">
       <h1 className="text-2xl font-bold">Shoppingcart</h1>
       {Object.keys(cart).map((itemId) => {
-        return (<div>
+        return (<div key={itemId}>
           <div className="flex">
             <p className="pr-4 font-xl">{itemId}</p>
             <p className="pr-2">Amount:</p>
